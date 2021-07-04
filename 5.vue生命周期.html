@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  
+  <div id="app">
+    <h1>{{a + b}}</h1>
+    <button @click=""></button>
+
+    <ul>
+      <li>item1</li>
+      <li ref="li">item2</li>
+      <li>item3</li>
+    </ul>
+
+    <p id="p">{{message}}</p>
+    <button @click="btnAction">按钮</button>
+
+    <button @click="btn2Action">强制更新</button>
+
+    <p>姓名：{{info.name}}</p>
+    <p>年龄：{{info.age}}</p>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+
+      // template: `
+      //   <div id="app">
+      //     <h1>{{a + b}}</h1>
+      //   </div>`,
+
+      data: {
+        a: 1,
+        b: 2,
+        c: 100,
+        message: 'hello',
+        info: {
+          name: '张三'
+        }
+      },
+      methods: {
+        btnAction(){
+          this.message = 'hi';
+          // dom什么时候变化，数据变，dom更新是异步的
+          // 数据的修改代码和$nextTick之间不能有任何的代码
+          //。。。。。
+          this.$nextTick(()=>{
+            console.log('1:', document.querySelector('#p').innerText);
+          });
+          console.log('2:', document.querySelector('#p').innerText);
+        },
+        btn2Action(){
+          // 强制更新
+          this.$forceUpdate();
+        }
+      },
+      beforeCreate(){
+        console.log('beforeCreate...');
+      },
+      created(){
+        console.log('created...');
+        console.log(this.$data);
+      },
+      mounted(){
+        console.log(this.$refs.li);
+      },
+      beforeUpdate(){
+        console.log('beforeUpdate....');
+        console.log(this.a);
+      },
+      updated(){
+        console.log('updated.....');
+        console.log(this.a);
+
+      },
+
+      beforeDestroy(){
+        console.log('beforeDestory');
+      },
+      destroyed(){
+        console.log('destoryed....');
+      }
+    });
+
+
+  </script>
+
+  <!--
+  1. new Vue();
+
+  2. 加载vue的事件，以及加载vue的生命周期函数(不是调用函数)
+
+  3. 执行beforeCreate()生命周期函数
+
+  4. 数据执行了观测，已经加载了事件等其他一些跟dom无关初始化操作(watch，computed，。。。。)
+
+  5. 执行created()生命周期函数,只要跟dom没有关系的操作，在这个生命周期函数中都可以执行。
+
+  6. 判断是否配置了$el，如果没有就不管理dom，直至动态调用了$mount(el)才会管理dom
+
+  7. 判断是否有template
+
+  8. 有，直接编译模版，没有，把el.outerHTML当成模版，进行编译
+
+  9. 执行beforeMount()生命周期函数
+
+  10. 将渲染好的dom替换到页面中
+
+  11. 执行mounted()生命周期函数，操作dom
+
+  12. 当数据变化后,dom使用了该数据
+
+  13. 执行beforeUpdate()生命周期函数
+
+  14. 比对虚拟dom，更新dom
+
+  15. 执行updated()生命周期函数
+
+  16. 当实例调用$destroy()时
+
+  17.  执行beforeDestroy()生命周期函数,移除闭包，移除事件监听。。
+
+  18. 移除子组件移除事件监听等等会造成内存泄漏的
+
+  19. 执行destroyed()生命周期函数
+
+  
+  -->
+  
+</body>
+</html>

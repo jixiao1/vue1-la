@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>{{ a }}</h1>
+    <button @click="btnAction">按钮</button>
+  </div>
+  <script>
+    const  vm = new Vue({
+      el: '#app',
+      data: {
+        a: 10,
+        b: 20,
+        info: {
+            name: "张三",
+            age: 10,
+          }
+      },
+      watch: {
+        a (newVal, oldVal) {
+          console.log("a变化了....");
+            console.log("newValue:", newVal, "oldValue:", oldVal);
+        },
+        'info.name'(newValue, oldValue) {
+            console.log("info.name变化了...");
+            console.log("newValue:", newValue, "oldValue:", oldValue);
+          },
+          // 监听对象
+          info: {
+            handler (newValue, oldValue) {
+              console.log("newValue:", newValue, "oldValue:", oldValue);
+            },
+            deep: true,
+            immediate: true
+          }
+      },
+      methods: {
+        btnAction () {
+            //按钮点击后，再监听
+            this.$watch('info.name', (newValue, oldValue)=>{
+              console.log('info.name变化了：', newValue, oldValue);
+            })
+
+            this.$watch(()=>{
+              return this.a + this.b;
+            }, (newValue, oldValue)=>{
+              console.log('a+b变化了：', newValue, oldValue);
+            })
+        }
+      },
+    })
+  </script>
+</body>
+</html>

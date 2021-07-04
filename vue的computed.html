@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style></style>
+  </head>
+  <body>
+    <div id="app">
+      <p>
+        a:
+        <input type="number" v-model.number="a" />
+      </p>
+      <p>
+        b:
+        <input type="number" v-model.number="b" />
+      </p>
+
+
+      <p>求最大公约数：{{ result }}</p>
+
+      <p>姓名：{{fullName}}</p>
+
+      <p>{{arr}}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+      const info = {
+            firstName: "张",
+            lastName: "三",
+          };
+
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          a: 10,
+          b: 24,
+          arr: [1, 2, 3],
+          info: {
+            firstName: "张",
+            lastName: "三",
+          },
+        },
+        // 计算属性
+        computed: {
+          result: {
+            get() {
+              var result = 1;
+              for (var i = 1; i <= this.a && i <= this.b; i++) {
+                if (this.a % i == 0 && this.b % i == 0) {
+                  result = i;
+                }
+              }
+              return result;
+            },
+          },
+          // 默认情况下，计算属性，只实现get方法
+          fullName: {
+            get(){
+              console.log('get value');
+              return this.info.firstName + this.info.lastName;
+            },
+            set(value){
+              console.log('set value：', value);
+              
+              this.info.firstName = value[0];
+              this.info.lastName = value.substr(1, value.length);
+            }
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
