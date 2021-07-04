@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <p>
+      a:
+      <input type="number" v-model:number="a">
+    </p>
+    <p>
+      b:
+      <input type="number" v-model:number="b">
+    </p>
+    <p>求最大公约数：{{ result }}</p>
+    <p>求最大公约数：{{ result }}</p>
+    <p>求最大公约数：{{ result }}</p>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        a: 10,
+        b: 20
+      },
+      computed: {
+        result () {
+          console.log("计算竖向。。。。")
+          var result = 1;
+          for( var i =1; i<= this.a && i<= this.b; i++) {
+            if (this.a % i == 0 && this.b % i == 0) {
+              result = i;
+            }
+          }
+          return result
+        }
+      },
+        // 方法
+        methods: {
+          result2() {
+            console.log('方法。。。');
+            var result = 1;
+            for(var i = 1; i <= this.a && i <= this.b; i++ ){
+              if(this.a%i == 0 && this.b%i == 0 ){
+                result = i;
+              }
+            }
+            return result;
+          },
+        },
+    })
+  </script>
+</body>
+</html>
